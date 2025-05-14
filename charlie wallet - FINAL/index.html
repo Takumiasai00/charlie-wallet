@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Charlie Wallet</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #ffffff;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    .header {
+      background: #141414;
+      color: #fff;
+      padding: 1.25rem 2.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: #fff;
+      text-decoration: none;
+      letter-spacing: -0.5px;
+    }
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+    }
+    .nav-link {
+      color: #e0e0e0;
+      text-decoration: none;
+      transition: all 0.2s ease;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.6rem 1.2rem;
+      border-radius: 4px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .nav-link:hover {
+      color: #ffffff;
+      transform: translateY(-1px);
+      background: rgba(255,255,255,0.1);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .nav-link:active {
+      transform: translateY(0);
+    }
+    .nav-link.top-up {
+      background: rgba(255,255,255,0.05);
+      color: #e0e0e0;
+      border: 1px solid rgba(255,255,255,0.1);
+      font-weight: 600;
+    }
+    .nav-link.top-up:hover {
+      background: hwb(0 100% 0% / 0.1);
+      border-color: rgba(255,255,255,0.2);
+      color: #ffffff;
+    }
+    .nav-link.top-up:active {
+      transform: translateY(0);
+    }
+    .btn-signup, .buy-button {
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      padding: 0.7rem 1.5rem;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-weight: 600;
+      color: white;
+      font-size: 0.95rem;
+      letter-spacing: 0.3px;
+    }
+    .btn-signup:hover, .buy-button:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+    .btn-signup:active, .buy-button:active {
+      transform: translateY(0);
+    }
+    .hero {
+      background: linear-gradient(to bottom, #141414, #0a0a0a);
+      color: white;
+      padding: 8rem 2.5rem;
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .hero h1 {
+      font-size: 3.5rem;
+      margin-bottom: 1rem;
+      font-weight: 700;
+      letter-spacing: -1px;
+      line-height: 1.2;
+    }
+    .hero p {
+      font-size: 1.25rem;
+      color: #e0e0e0;
+      max-width: 600px;
+      margin: 0 auto;
+      font-weight: 400;
+    }
+    .games {
+      padding: 5rem 2.5rem;
+      text-align: center;
+    }
+    .games h2 {
+      font-size: 2.5rem;
+      margin-bottom: 2.5rem;
+      color: #ffffff;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .game-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2.5rem;
+      max-width: 1200px;
+      margin: 3rem auto 0;
+      padding: 0 1rem;
+    }
+    .game-card {
+      background: #141414;
+      border-radius: 4px;
+      overflow: hidden;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .game-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      border-color: rgba(255,255,255,0.1);
+    }
+    .game-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      margin-bottom: 0;
+    }
+    .item-info {
+      padding: 2rem;
+    }
+    .item-name {
+      font-size: 1.2rem;
+      margin: 0 0 1rem 0;
+      color: white;
+      font-weight: 600;
+      letter-spacing: -0.3px;
+    }
+    .item-price {
+      color: #0074e4;
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin: 1rem 0;
+      letter-spacing: -0.3px;
+    }
+    .item-option {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .item-option:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+    }
+    .item-option p {
+      margin: 0;
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.3px;
+    }
+    .welcome {
+      color: #ffffff;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+    .balance {
+      color: #e0e0e0;
+      font-weight: 700;
+      margin-left: 1rem;
+      font-size: 1rem;
+      background: rgba(255,255,255,0.05);
+      padding: 0.75rem 1.25rem;
+      border-radius: 4px;
+      border: 1px solid rgba(255,255,255,0.1);
+      transition: all 0.2s ease;
+    }
+    .balance:hover {
+      background: rgba(255,255,255,0.08);
+      border-color: rgba(255,255,255,0.2);
+    }
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.9);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(4px);
+    }
+    .modal-content {
+      background: #141414;
+      padding: 3rem;
+      border-radius: 4px;
+      width: 360px;
+      position: relative;
+      color: white;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.5);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    .modal-content h2 {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      text-align: center;
+      font-size: 1.75rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .modal-content input, .modal-content select {
+      width: 100%;
+      padding: 1rem 1.25rem;
+      margin-bottom: 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: white;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: all 0.2s ease;
+    }
+    .modal-content input:focus, .modal-content select:focus {
+      border-color: rgba(255,255,255,0.3);
+      outline: none;
+      background: rgba(255,255,255,0.08);
+    }
+    .modal-content input::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    .modal-content button {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255,255,255,0.1);
+      color: white;
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      margin-bottom: 1rem;
+      font-weight: 600;
+      font-size: 1rem;
+      letter-spacing: 0.3px;
+    }
+    .modal-content button:hover {
+      background: rgba(255,255,255,0.15);
+      border-color: rgba(255,255,255,0.3);
+      transform: translateY(-1px);
+    }
+    .modal-content button:active {
+      transform: translateY(0);
+    }
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.5);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0;
+      line-height: 1;
+      width: 24px;
+      height: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      z-index: 1000;
+    }
+    .close-modal:hover {
+      color: rgba(255,255,255,0.9);
+      background: none;
+      transform: none;
+      box-shadow: none;
+    }
+    .modal-content .close-modal {
+      width: 24px;
+      height: 24px;
+      margin: 0;
+      padding: 0;
+      background: none;
+      border: none;
+      box-shadow: none;
+    }
+    .modal-content .close-modal:hover {
+      background: none;
+      transform: none;
+      box-shadow: none;
+    }
+    .about {
+      padding: 5rem 2.5rem;
+      text-align: center;
+      background: #141414;
+      margin-top: 4rem;
+    }
+    .about h2 {
+      color: white;
+      margin-bottom: 2rem;
+      font-size: 2.5rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+    .about-content {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      font-size: 1.1rem;
+      line-height: 1.7;
+    }
+    .about-content ul {
+      list-style: none;
+      padding: 0;
+    }
+    .about-content li {
+      margin: 1.5rem 0;
+      color: #e0e0e0;
+    }
+    .footer {
+      background: #141414;
+      color: #888;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .search-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 0 1rem;
+    }
+    .search-bar {
+      width: 100%;
+      padding: 1rem 1.5rem;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 4px;
+      color: white;
+      font-size: 1rem;
+      transition: all 0.2s ease;
+    }
+    .search-bar:focus {
+      outline: none;
+      border-color: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.08);
+    }
+    .search-bar::placeholder {
+      color: rgba(255,255,255,0.4);
+    }
+    .no-results {
+      text-align: center;
+      color: #e0e0e0;
+      padding: 2rem;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <div class="logo">Charlie Wallet</div>
+    <nav class="nav">
+      <a href="#about" class="nav-link">About Us</a>
+      <a href="#topup" onclick="openTopupModal()" class="nav-link top-up">Top Up</a>
+      <span id="welcomeMsg" class="welcome"></span>
+      <span id="balanceDisplay" class="balance" style="display: none;">Balance: ₱<span id="balanceAmount">0</span></span>
+      <button id="authBtn" class="btn-signup" onclick="openModal()">Sign In / Log In</button>
+      <button id="logoutBtn" class="btn-signup" onclick="logout()" style="display: none;">Logout</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <h1>Charlie Wallet</h1>
+        <p>Your Trusted Digital Payment Solution</p>
+      </div>
+    </section>
+
+    <section id="games" class="games">
+      <h2>Supported Games</h2>
+      <div class="search-container">
+        <input type="text" class="search-bar" id="gameSearch" placeholder="Search games..." oninput="searchGames()">
+      </div>
+      <div class="game-grid">
+        <!-- Dota 2 -->
+        <div class="game-card" data-game="dota2" data-keywords="dota 2 defense of the ancients moba valve steam">
+          <img src="https://cdn.cloudflare.steamstatic.com/steam/apps/570/header.jpg" alt="Dota 2">
+          <button class="item-option" onclick="redirectToPurchase('purchase_dota2.html')">
+            <p style="margin: 0.5rem; font-weight: 700;">Buy Dota 2 Items</p>
+          </button>
+        </div>
+
+        <!-- Star Rail -->
+        <div class="game-card" data-game="starrail" data-keywords="honkai star rail hsr hoyo hoyoverse mihoyo gacha rpg">
+          <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="Star Rail">
+          <button class="item-option" onclick="redirectToPurchase('purchase_starrail.html')">
+            <p style="margin: 0.5rem; font-weight: 700;">Buy Star Rail Items</p>
+          </button>
+        </div>
+
+        <!-- Valorant -->
+        <div class="game-card" data-game="valorant" data-keywords="valorant val riot games fps shooter tactical">
+          <img src="https://cdn1.epicgames.com/offer/cbd5b3d310a54b12bf3fe8c41994174f/EGS_VALORANT_RiotGames_S1_2560x1440-543b60e5e4a0af08f8001e8faf7e1bc3" alt="Valorant">
+          <button class="item-option" onclick="redirectToPurchase('purchase_valorant.html')">
+            <p style="margin: 0.5rem; font-weight: 700;">Buy Valorant Items</p>
+          </button>
+        </div>
+
+        <!-- Roblox Card -->
+        <div class="game-card" data-game="roblox" data-keywords="roblox robux gaming platform sandbox">
+          <img src="https://images.rbxcdn.com/cece570e37aa8f95a450ab0484a18d91" alt="Roblox">
+          <button class="item-option" onclick="redirectToPurchase('purchase_roblox.html')">
+            <p style="margin: 0.5rem; font-weight: 700;">Buy Roblox Items</p>
+          </button>
+        </div>
+      </div>
+      <div class="no-results">No games found matching your search.</div>
+    </section>
+
+    <section id="about" class="about">
+      <h2>About Us</h2>
+      <div class="about-content">
+        <p>Created by:</p>
+        <ul>
+          <li>Charles Milan - BSIT 1E</li>
+          <li>Takumi Asai - BSIT 1E</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>&copy; 2025 Charlie Wallet. All rights reserved.</p>
+  </footer>
+
+  <!-- Login Modal -->
+  <div id="loginModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeModal()">×</button>
+      <h2>Login</h2>
+      <input type="text" id="username" placeholder="Username" />
+      <input type="password" id="password" placeholder="Password" />
+      <button onclick="login()">Log In</button>
+      <button onclick="openSignupModal()">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- Sign Up Modal -->
+  <div id="signupModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeSignupModal()">×</button>
+      <h2>Sign Up</h2>
+      <input type="text" id="newUsername" placeholder="Username" />
+      <input type="password" id="newPassword" placeholder="Password" />
+      <button onclick="signup()">Sign Up</button>
+    </div>
+  </div>
+
+  <!-- Top-Up Modal -->
+  <div id="topupModal" class="modal">
+    <div class="modal-content">
+      <button class="close-modal" onclick="closeTopupModal()">×</button>
+      <h2>Top Up Your Wallet</h2>
+      <input type="number" id="topupAmount" placeholder="Enter amount" />
+      <button onclick="proceedToPayment()">Pay with GCash</button>
+    </div>
+  </div>
+
+  <script>
+    let userBalance = 0;  
+    let isLoggedIn = false; 
+    
+    let users = JSON.parse(localStorage.getItem('users')) || [];
+
+    function openModal() {
+      document.getElementById('loginModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('loginModal').style.display = 'none';
+    }
+
+    function openSignupModal() {
+      closeModal();
+      document.getElementById('signupModal').style.display = 'flex';
+    }
+
+    function closeSignupModal() {
+      document.getElementById('signupModal').style.display = 'none';
+      openModal();
+    }
+
+    function openTopupModal() {
+      document.getElementById('topupModal').style.display = 'flex';
+    }
+
+    function closeTopupModal() {
+      document.getElementById('topupModal').style.display = 'none';
+    }
+
+    function updateBalanceDisplay() {
+      document.getElementById('balanceAmount').textContent = userBalance;
+    }
+
+    const storedLoginState = localStorage.getItem('isLoggedIn') === 'true';
+    const username = localStorage.getItem('username');
+    const storedBalance = parseInt(localStorage.getItem('userBalance')) || 0;
+
+    if (storedLoginState && username) {
+      document.getElementById('welcomeMsg').innerText = `Welcome, ${username}!`;
+      document.getElementById('authBtn').style.display = 'none';
+      document.getElementById('logoutBtn').style.display = 'inline';
+      document.getElementById('balanceDisplay').style.display = 'inline';
+      userBalance = storedBalance;
+      updateBalanceDisplay();
+
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const currentUser = users.find(user => user.username === username);
+      if (currentUser && currentUser.balance !== undefined) {
+        userBalance = currentUser.balance;
+        localStorage.setItem('userBalance', userBalance);
+        updateBalanceDisplay();
+      }
+    }
+
+    function login() {
+      const username = document.getElementById('username').value.trim();
+      const password = document.getElementById('password').value;
+
+      const users = JSON.parse(localStorage.getItem('users')) || [];
+      const user = users.find(user => user.username === username && user.password === password);
+      if (user) {
+        document.getElementById('welcomeMsg').innerText = `Welcome, ${username}!`;
+        document.getElementById('authBtn').style.display = 'none';
+        document.getElementById('logoutBtn').style.display = 'inline';
+        document.getElementById('balanceDisplay').style.display = 'inline';
+        userBalance = user.balance || 0;
+        localStorage.setItem('isLoggedIn', 'true');
+        localStorage.setItem('username', username);
+        localStorage.setItem('userBalance', userBalance);
+        updateBalanceDisplay();
+        closeModal();
+      } else {
+        alert('Incorrect username or password.');
+      }
+    }
+
+    function logout() {
+
+      const username = localStorage.getItem('username');
+      if (username) {
+        const users = JSON.parse(localStorage.getItem('users')) || [];
+        const userIndex = users.findIndex(user => user.username === username);
+        if (userIndex !== -1) {
+          users[userIndex].balance = userBalance;
+          localStorage.setItem('users', JSON.stringify(users));
+        }
+      }
+
+      localStorage.removeItem('isLoggedIn');
+      localStorage.removeItem('username');
+      localStorage.removeItem('userBalance');
+      document.getElementById('welcomeMsg').innerText = '';
+      document.getElementById('authBtn').style.display = 'inline';
+      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('balanceDisplay').style.display = 'none';
+      userBalance = 0;
+      updateBalanceDisplay();
+    }
+
+    function signup() {
+      const username = document.getElementById('newUsername').value.trim();
+      const password = document.getElementById('newPassword').value;
+
+      if (users.find(user => user.username === username)) {
+        alert('Username already exists. Please choose another one.');
+        return;
+      }
+
+      users.push({ username, password, balance: 1000 });
+      localStorage.setItem('users', JSON.stringify(users));
+      alert('Sign up successful! Please log in.');
+      closeSignupModal();
+    }
+
+    function redirectToPurchase(page) {
+      window.location.href = page;
+    }
+
+    function proceedToPayment() {
+      const amount = document.getElementById('topupAmount').value;
+
+      if (!amount || amount <= 0) {
+        alert('Please enter a valid amount.');
+        return;
+      }
+
+      const params = new URLSearchParams();
+      params.append('amount', amount);
+      params.append('method', 'gcash');
+      
+      window.location.href = `payment.html?${params.toString()}`;
+    }
+
+    function searchGames() {
+      const searchTerm = document.getElementById('gameSearch').value.toLowerCase();
+      const gameCards = document.querySelectorAll('.game-card');
+      const noResults = document.querySelector('.no-results');
+      let hasResults = false;
+
+      gameCards.forEach(card => {
+        const keywords = card.getAttribute('data-keywords').toLowerCase();
+        const gameName = card.getAttribute('data-game').toLowerCase();
+        
+        if (keywords.includes(searchTerm) || gameName.includes(searchTerm)) {
+          card.style.display = 'block';
+          hasResults = true;
+        } else {
+          card.style.display = 'none';
+        }
+      });
+
+      noResults.style.display = hasResults ? 'none' : 'block';
+    }
+  </script>
+</body>
+</html>

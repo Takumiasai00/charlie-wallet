@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buy Star Rail Items - Charlie Wallet</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: #121212;
+            color: #ffffff;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .header {
+            background: #202020;
+            color: #fff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .back-button {
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.7rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        .back-button:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        .main-content {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+        .game-header {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 3rem;
+            background: #202020;
+            padding: 2.5rem;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        .game-image {
+            width: 300px;
+            height: 170px;
+            object-fit: cover;
+            border-radius: 12px;
+        }
+        .game-info h1 {
+            margin: 0 0 1rem 0;
+            font-size: 2.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        .game-info p {
+            font-size: 1.1rem;
+            color: #e0e0e0;
+            margin: 0;
+            line-height: 1.6;
+        }
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+        .item-card {
+            background: #202020;
+            border-radius: 4px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .item-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            border-color: rgba(255,255,255,0.1);
+        }
+        .item-image {
+            width: 100%;
+            height: 200px;
+            object-fit: contain;
+            background: #2a2a2a;
+            padding: 1.5rem;
+            box-sizing: border-box;
+        }
+        .item-info {
+            padding: 1.5rem;
+        }
+        .item-name {
+            font-size: 1.2rem;
+            margin: 0 0 0.5rem 0;
+            color: white;
+            font-weight: 600;
+            letter-spacing: -0.3px;
+        }
+        .item-price {
+            color: #0074e4;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 0.75rem 0;
+            letter-spacing: -0.3px;
+        }
+        .buy-button {
+            width: 100%;
+            padding: 0.8rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.3px;
+        }
+        .buy-button:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        .buy-button:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .balance-display {
+            background: #202020;
+            padding: 1.5rem 2rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+        .balance-amount {
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 700;
+            background: rgba(255,255,255,0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Charlie Wallet</a>
+        <button class="back-button" onclick="window.location.href='index.html'">Back to Home</button>
+    </header>
+
+    <main class="main-content">
+        <div class="game-header">
+            <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="Star Rail" class="game-image">
+            <div class="game-info">
+                <h1>Star Rail Items</h1>
+                <p>Purchase in-game items for Honkai: Star Rail using your Charlie Wallet balance.</p>
+            </div>
+        </div>
+
+        <div class="balance-display">
+            <span>Your Balance:</span>
+            <span class="balance-amount">₱<span id="userBalance">0</span></span>
+        </div>
+
+        <div class="items-grid">
+            <div class="item-card">
+                <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="60 Stellar Jade" class="item-image">
+                <div class="item-info">
+                    <h3 class="item-name">60 Stellar Jade</h3>
+                    <p class="item-price">₱49</p>
+                    <button class="buy-button" onclick="purchaseItem('60 Stellar Jade', 49)">Purchase</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="300 Stellar Jade" class="item-image">
+                <div class="item-info">
+                    <h3 class="item-name">300 Stellar Jade</h3>
+                    <p class="item-price">₱249</p>
+                    <button class="buy-button" onclick="purchaseItem('300 Stellar Jade', 249)">Purchase</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="980 Stellar Jade" class="item-image">
+                <div class="item-info">
+                    <h3 class="item-name">980 Stellar Jade</h3>
+                    <p class="item-price">₱749</p>
+                    <button class="buy-button" onclick="purchaseItem('980 Stellar Jade', 749)">Purchase</button>
+                </div>
+            </div>
+
+            <div class="item-card">
+                <img src="https://cdn1.epicgames.com/offer/a2dcbb9e34204bda9da8415f97b3f4ea/2560x1440_EN_2560x1440-1295c4399099873d0d329e1c39d12ed5" alt="1980 Stellar Jade" class="item-image">
+                <div class="item-info">
+                    <h3 class="item-name">1980 Stellar Jade</h3>
+                    <p class="item-price">₱1,490</p>
+                    <button class="buy-button" onclick="purchaseItem('1980 Stellar Jade', 1490)">Purchase</button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+
+        let userBalance = parseInt(localStorage.getItem('userBalance')) || 0;
+        document.getElementById('userBalance').textContent = userBalance;
+
+        function purchaseItem(itemName, price) {
+            if (!localStorage.getItem('isLoggedIn')) {
+                alert('Please log in to make a purchase.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            if (userBalance < price) {
+                alert('Insufficient balance. Please top up your wallet.');
+                return;
+            }
+
+            const confirmPurchase = confirm(`Do you want to purchase ${itemName} for ₱${price}?`);
+            if (confirmPurchase) {
+                userBalance -= price;
+                localStorage.setItem('userBalance', userBalance);
+                document.getElementById('userBalance').textContent = userBalance;
+                alert(`Successfully purchased ${itemName}!`);
+            }
+        }
+
+        if (!localStorage.getItem('isLoggedIn')) {
+            alert('Please log in to view items.');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
