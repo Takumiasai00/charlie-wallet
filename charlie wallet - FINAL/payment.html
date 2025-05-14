@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GCash Payment - Charlie Wallet</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
+        .header {
+            background: #141414;
+            color: #fff;
+            padding: 1.25rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            letter-spacing: -0.5px;
+        }
+        .payment-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #141414;
+            border-radius: 4px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .payment-details {
+            background: rgba(255,255,255,0.05);
+            padding: 1.5rem;
+            border-radius: 4px;
+            margin: 1.5rem 0;
+        }
+        h2, h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .amount {
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: #fff;
+        }
+        .instructions {
+            margin: 1.5rem 0;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+        }
+        .instructions li {
+            margin: 0.5rem 0;
+            color: #e0e0e0;
+        }
+        .qr-code {
+            width: 200px;
+            height: 200px;
+            background: #fff;
+            margin: 1rem auto;
+            padding: 1rem;
+            border-radius: 4px;
+        }
+        .button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            text-align: center;
+        }
+        .button:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+            transform: translateY(-1px);
+        }
+        .reference {
+            font-family: monospace;
+            font-size: 1.2rem;
+            background: rgba(255,255,255,0.05);
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo">Charlie Wallet</a>
+    </header>
+
+    <div class="payment-container">
+        <h2>Complete Your GCash Payment</h2>
+        <div class="payment-details">
+            <div class="amount">₱<span id="paymentAmount">0</span></div>
+        </div>
+
+        <div class="instructions">
+            <h3>GCash Payment Details</h3>
+            <p>Send to:</p>
+            <p class="reference">0912 345 6789</p>
+            <p>Account Name: Charlie Wallet</p>
+            <div class="qr-code">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=sample_gcash_payment" alt="GCash QR" style="width: 100%; height: 100%; object-fit: contain;">
+            </div>
+            <ol>
+                <li>Open your GCash app</li>
+                <li>Scan the QR code or send to the number above</li>
+                <li>Enter the exact amount: ₱<span class="amount-value"></span></li>
+                <li>Complete the payment in your GCash app</li>
+                <li>Keep your reference number from GCash</li>
+            </ol>
+        </div>
+
+        <a href="#" class="button" onclick="confirmPayment()">I've Completed the Payment</a>
+        <a href="index.html" class="button" style="margin-left: 1rem;">Cancel</a>
+    </div>
+
+    <script>
+        // Get payment details from URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        const amount = urlParams.get('amount');
+
+        // Display payment details
+        document.getElementById('paymentAmount').textContent = amount;
+        document.querySelectorAll('.amount-value').forEach(el => el.textContent = amount);
+
+        function updateBalance(amount) {
+            // Get current user and balance
+            const username = localStorage.getItem('username');
+            let users = JSON.parse(localStorage.getItem('users')) || [];
+            let userBalance = parseInt(localStorage.getItem('userBalance')) || 0;
+
+            // Add the payment amount to balance
+            userBalance += parseInt(amount);
+            
+            // Update user's balance in the users array
+            const userIndex = users.findIndex(user => user.username === username);
+            if (userIndex !== -1) {
+                users[userIndex].balance = userBalance;
+                localStorage.setItem('users', JSON.stringify(users));
+            }
+            
+            // Update current balance in localStorage
+            localStorage.setItem('userBalance', userBalance);
+            
+            return userBalance;
+        }
+
+        function confirmPayment() {
+            const confirmMsg = `Have you completed the GCash payment of ₱${amount}?`;
+            if (confirm(confirmMsg)) {
+                // Update balance
+                const newBalance = updateBalance(amount);
+                
+                // Show success message with new balance
+                alert(`Payment successful!\nAmount: ₱${amount}\nNew Balance: ₱${newBalance}`);
+                
+                // Redirect back to main page
+                window.location.href = 'index.html';
+            }
+        }
+    </script>
+</body>
+</html> 
